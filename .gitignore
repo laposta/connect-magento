@@ -1,0 +1,4 @@
+./idea/
+./resources/
+./public/
+!./public/app/code/local/
