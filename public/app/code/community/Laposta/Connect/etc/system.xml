@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <lapostaconnect translate="label" module="lapostaconnect">
+            <label><![CDATA[Laposta Connect]]></label>
+            <sort_order>350</sort_order>
+        </lapostaconnect>
+    </tabs>
+    <sections>
+        <lapostaconnect translate="label">
+            <class>laposta-section</class>
+            <label>Laposta Configuration</label>
+            <header_css>laposta-header</header_css>
+            <tab>lapostaconnect</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>10</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <backend translate="label">
+                    <label>Backend</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>50</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <expanded>1</expanded>
+                    <fields>
+                        <short_desc_instructions translate="label">
+                            <label>Short Description Instructions</label>
+                            <frontend_type>textarea</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </short_desc_instructions>
+                    </fields>
+                </backend>
+            </groups>
+        </lapostaconnect>
+    </sections>
+</config>
