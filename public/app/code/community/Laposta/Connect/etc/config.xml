@@ -25,6 +25,32 @@
                 </lapostaconnect>
             </updates>
         </layout>
+        <events>
+            <controller_action_predispatch_onestepcheckout_index_index>
+                <observers>
+                    <laposta_subscribe_checkout>
+                        <class>lapostaconnect/observer</class>
+                        <method>handleSubscribe</method>
+                    </laposta_subscribe_checkout>
+                </observers>
+            </controller_action_predispatch_onestepcheckout_index_index>
+            <controller_action_postdispatch_checkout_onepage_saveOrder>
+                <observers>
+                    <laposta_subscribe_checkout>
+                        <class>lapostaconnect/observer</class>
+                        <method>handleSubscribe</method>
+                    </laposta_subscribe_checkout>
+                </observers>
+            </controller_action_postdispatch_checkout_onepage_saveOrder>
+            <checkout_onepage_controller_success_action>
+                <observers>
+                    <laposta_subscribe_checkoutsuccess>
+                        <class>lapostaconnect/observer</class>
+                        <method>handleCheckout</method>
+                    </laposta_subscribe_checkoutsuccess>
+                </observers>
+            </checkout_onepage_controller_success_action>
+        </events>
     </frontend>
     <global>
         <models>
@@ -41,9 +67,9 @@
                     <field>
                         <table>laposta_field</table>
                     </field>
-                    <config>
-                        <table>laposta_config</table>
-                    </config>
+                    <list>
+                        <table>laposta_list</table>
+                    </list>
                 </entities>
             </lapostaconnect_mysql4>
         </models>
@@ -90,4 +116,33 @@
             </lapostaconnect>
         </routers>
     </admin>
+    <adminhtml>
+        <events>
+            <admin_system_config_changed_section_lapostaconnect>
+                <observers>
+                    <laposta_save_config>
+                        <class>lapostaconnect/observer</class>
+                        <method>handleSaveConfig</method>
+                    </laposta_save_config>
+                </observers>
+            </admin_system_config_changed_section_lapostaconnect>
+            <controller_action_postdispatch_adminhtml_system_config_edit>
+                <observers>
+                    <laposta_load_config>
+                        <class>lapostaconnect/observer</class>
+                        <method>handleLoadConfig</method>
+                    </laposta_load_config>
+                </observers>
+            </controller_action_postdispatch_adminhtml_system_config_edit>
+        </events>
+    </adminhtml>
+    <default>
+        <lapostaconnect>
+            <laposta>
+                <active>1</active>
+                <list_name>Magento</list_name>
+                <map_fields><![CDATA[a:13:{s:18:"_1393726014715_715";a:2:{s:7:"magento";s:9:"firstname";s:7:"laposta";s:10:"First Name";}s:17:"_1393726026086_86";a:2:{s:7:"magento";s:8:"lastname";s:7:"laposta";s:9:"Last Name";}s:18:"_1393726027925_925";a:2:{s:7:"magento";s:3:"dob";s:7:"laposta";s:13:"Date of Birth";}s:17:"_1393726029077_77";a:2:{s:7:"magento";s:15:"billing_address";s:7:"laposta";s:15:"Billing Address";}s:18:"_1393726030363_363";a:2:{s:7:"magento";s:16:"shipping_address";s:7:"laposta";s:16:"Shipping Address";}s:18:"_1393726070252_252";a:2:{s:7:"magento";s:6:"gender";s:7:"laposta";s:6:"Gender";}s:16:"_1393726077000_0";a:2:{s:7:"magento";s:8:"store_id";s:7:"laposta";s:8:"Store ID";}s:17:"_1393726086092_92";a:2:{s:7:"magento";s:10:"website_id";s:7:"laposta";s:10:"Website ID";}s:18:"_1393726099686_686";a:2:{s:7:"magento";s:16:"date_of_purchase";s:7:"laposta";s:14:"Last Purchased";}s:18:"_1393726117207_207";a:2:{s:7:"magento";s:19:"ee_customer_balance";s:7:"laposta";s:15:"Account Balance";}s:18:"_1393726143760_760";a:2:{s:7:"magento";s:8:"group_id";s:7:"laposta";s:8:"Group ID";}s:17:"_1393726160081_81";a:2:{s:7:"magento";s:9:"telephone";s:7:"laposta";s:9:"Telephone";}s:18:"_1393726169267_267";a:2:{s:7:"magento";s:7:"company";s:7:"laposta";s:7:"Company";}}]]></map_fields>
+            </laposta>
+        </lapostaconnect>
+    </default>
 </config>
