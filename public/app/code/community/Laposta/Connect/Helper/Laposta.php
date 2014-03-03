@@ -56,6 +56,8 @@ class Laposta_Connect_Helper_Laposta extends Mage_Core_Helper_Abstract
             )
         );
 
+        $this->log(__METHOD__, $result);
+
         return $result['list']['list_id'];
     }
 
@@ -82,8 +84,9 @@ class Laposta_Connect_Helper_Laposta extends Mage_Core_Helper_Abstract
             'source_url'    => $source,
             'custom_fields' => $this->denormalizeFields($listId, $fields),
         );
-
         $result = $member->create($data);
+
+        $this->log(__METHOD__, $result);
 
         return $result['member']['member_id'];
     }
@@ -162,8 +165,9 @@ class Laposta_Connect_Helper_Laposta extends Mage_Core_Helper_Abstract
             'source_url'    => $source,
             'custom_fields' => $this->denormalizeFields($listId, $data),
         );
+        $result = $member->update($memberId, $data);
 
-        $member->update($memberId, $data);
+        $this->log(__METHOD__, $result);
 
         return $this;
     }
@@ -178,14 +182,15 @@ class Laposta_Connect_Helper_Laposta extends Mage_Core_Helper_Abstract
      */
     public function updateGroup($listId, $title)
     {
-        $list = new Laposta_List();
-
-        $list->update(
+        $list   = new Laposta_List();
+        $result = $list->update(
             $listId,
             array(
                 'name' => $title,
             )
         );
+
+        $this->log(__METHOD__, $result);
 
         return $this;
     }
@@ -229,6 +234,8 @@ class Laposta_Connect_Helper_Laposta extends Mage_Core_Helper_Abstract
         }
 
         $result = $lapField->create($meta);
+
+        $this->log(__METHOD__, $result);
 
         return array(
             'id'  => $result['field']['field_id'],
@@ -276,9 +283,11 @@ class Laposta_Connect_Helper_Laposta extends Mage_Core_Helper_Abstract
             $data['options'] = $options;
         }
 
-        $lapField->update($fieldId, $data);
+        $result = $lapField->update($fieldId, $data);
 
-        return $this;
+        $this->log(__METHOD__, $result);
+
+        return trim($result['field']['tag'], '{}');
     }
 
     /**
@@ -292,7 +301,9 @@ class Laposta_Connect_Helper_Laposta extends Mage_Core_Helper_Abstract
     public function removeField($listId, $fieldId)
     {
         $lapField = new Laposta_Field($listId);
-        $lapField->delete($fieldId);
+        $result   = $lapField->delete($fieldId);
+
+        $this->log(__METHOD__, $result);
 
         return $this;
     }
@@ -309,6 +320,8 @@ class Laposta_Connect_Helper_Laposta extends Mage_Core_Helper_Abstract
         $list   = new Laposta_List();
         $result = $list->get($listId);
 
+        $this->log(__METHOD__, $result);
+
         return $result['list'];
     }
 
@@ -324,6 +337,8 @@ class Laposta_Connect_Helper_Laposta extends Mage_Core_Helper_Abstract
     {
         $member = new Laposta_Member($listId);
         $result = $member->get($memberId);
+
+        $this->log(__METHOD__, $result);
 
         return $this->normalizeContact($result);
     }
@@ -374,8 +389,10 @@ class Laposta_Connect_Helper_Laposta extends Mage_Core_Helper_Abstract
      */
     public function removeLists($listId)
     {
-        $list = new Laposta_List();
-        $list->delete($listId);
+        $list   = new Laposta_List();
+        $result = $list->delete($listId);
+
+        $this->log(__METHOD__, $result);
 
         return $this;
     }
@@ -408,6 +425,8 @@ class Laposta_Connect_Helper_Laposta extends Mage_Core_Helper_Abstract
                 )
             );
 
+            $this->log(__METHOD__, $result);
+
             $hooks[] = $result['webhook']['webhook_id'];
         }
 
@@ -415,16 +434,50 @@ class Laposta_Connect_Helper_Laposta extends Mage_Core_Helper_Abstract
     }
 
     /**
+     * Remove a webhook
+     *
+     * @param string $listId
+     * @param string $hookId
+     *
+     * @return $this
+     */
+    public function removeHook($listId, $hookId)
+    {
+        $hook   = new Laposta_Webhook($listId);
+        $result = $hook->delete($hookId);
+
+        $this->log(__METHOD__, $result);
+
+        return $this;
+    }
+
+    /**
      * Get a list of all webhooks
      *
      * @param string $listId
+     * @param string $filter
      *
      * @return array
      */
-    public function getHooks($listId)
+    public function getHooks($listId, $filter = '')
     {
         $hook   = new Laposta_Webhook($listId);
         $result = $hook->all();
+
+        if (empty($filter)) {
+            return $result['data'];
+        }
+
+        /*
+         * Remove entries that don't match the filter
+         */
+        foreach ($result['data'] as $index => $data) {
+            if (isset($data['webhook']['url']) && strpos($data['webhook']['url'], $filter) !== false) {
+                continue;
+            }
+
+            unset($result['data'][$index]);
+        }
 
         return $result['data'];
     }
@@ -432,21 +485,23 @@ class Laposta_Connect_Helper_Laposta extends Mage_Core_Helper_Abstract
     /**
      * Disable all webhooks.
      *
-     * @param $listId
+     * @param string $listId
+     * @param string $filter
      *
      * @return $this
      */
-    public function disableHooks($listId)
+    public function disableHooks($listId, $filter = '')
     {
-        $hooks = $this->getHooks($listId);
+        $hooks = $this->getHooks($listId, $filter);
+        $hook  = new Laposta_Webhook($listId);
 
         foreach ($hooks as $data) {
-            $hook = new Laposta_Webhook($listId);
-
-            $hook->update(
+            $result = $hook->update(
                 $data['webhook']['webhook_id'],
                 array('blocked' => 'true')
             );
+
+            $this->log(__METHOD__, $result);
         }
 
         return $this;
@@ -455,23 +510,46 @@ class Laposta_Connect_Helper_Laposta extends Mage_Core_Helper_Abstract
     /**
      * Re-enable all webhooks.
      *
-     * @param $listId
+     * @param string $listId
+     * @param string $filter
      *
      * @return $this
      */
-    public function enableHooks($listId)
+    public function enableHooks($listId, $filter = '')
     {
-        $hooks = $this->getHooks($listId);
+        $hooks = $this->getHooks($listId, $filter);
+        $hook  = new Laposta_Webhook($listId);
 
         foreach ($hooks as $data) {
-            $hook = new Laposta_Webhook($listId);
-
-            $hook->update(
+            $result = $hook->update(
                 $data['webhook']['webhook_id'],
                 array('blocked' => 'false')
             );
+
+            $this->log(__METHOD__, $result);
         }
 
         return $this;
+    }
+
+    protected function log($method, $result = array())
+    {
+        Mage::helper('lapostaconnect')->log(
+            array(
+                'method' => $method,
+                'result' => $result,
+            )
+        );
+    }
+
+    /**
+     * Remove a contact
+     *
+     * @param $listId
+     * @param $memberId
+     */
+    public function removeContact($listId, $memberId)
+    {
+
     }
 } 

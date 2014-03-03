@@ -29,6 +29,7 @@ $installer->run(
       `field_name` varchar(255) NOT NULL default '',
       `field_relation` varchar(255) NOT NULL default '',
       `laposta_id` varchar(255) NOT NULL default '',
+      `laposta_tag` varchar(255) NOT NULL default '',
       `updated_time` datetime NULL,
       `sync_time` datetime NULL,
       PRIMARY KEY (`field_id`),
@@ -44,9 +45,11 @@ $installer->run(
       `list_id` int(11) unsigned NOT NULL auto_increment,
       `list_name` varchar(255) NOT NULL default '',
       `laposta_id` varchar(255) NOT NULL default '',
+      `webhook_token` varchar(255) NOT NULL default '',
       `updated_time` datetime NULL,
       `sync_time` datetime NULL,
-      PRIMARY KEY (`list_id`)
+      PRIMARY KEY (`list_id`),
+      INDEX `webhook_token` (`webhook_token`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8
     "
 );
