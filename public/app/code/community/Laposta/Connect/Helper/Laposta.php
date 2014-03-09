@@ -68,10 +68,11 @@ class Laposta_Connect_Helper_Laposta extends Mage_Core_Helper_Abstract
      * @param string $ip
      * @param string $email
      * @param array  $fields
+     * @param bool   $subscribed
      *
      * @return string
      */
-    public function addContact($listId, $ip, $email, $fields = array())
+    public function addContact($listId, $ip, $email, $fields = array(), $subscribed = false)
     {
         $member = new Laposta_Member($listId);
         $source = Mage::getBaseUrl(
@@ -82,6 +83,7 @@ class Laposta_Connect_Helper_Laposta extends Mage_Core_Helper_Abstract
             'ip'            => $this->resolveIp($ip),
             'email'         => $email,
             'source_url'    => $source,
+            'state'         => $subscribed ? 'active' : 'unsubscribed',
             'custom_fields' => $this->denormalizeFields($listId, $fields),
         );
         $result = $member->create($data);
@@ -149,10 +151,11 @@ class Laposta_Connect_Helper_Laposta extends Mage_Core_Helper_Abstract
      * @param string $ip
      * @param string $email
      * @param array  $data
+     * @param bool   $subscribed
      *
      * @return $this
      */
-    public function updateContact($listId, $memberId, $ip, $email, $data = array())
+    public function updateContact($listId, $memberId, $ip, $email, $data = array(), $subscribed = false)
     {
         $member = new Laposta_Member($listId);
         $source = Mage::getBaseUrl(
@@ -163,6 +166,7 @@ class Laposta_Connect_Helper_Laposta extends Mage_Core_Helper_Abstract
             'ip'            => $this->resolveIp($ip),
             'email'         => $email,
             'source_url'    => $source,
+            'state'         => $subscribed ? 'active' : 'unsubscribed',
             'custom_fields' => $this->denormalizeFields($listId, $data),
         );
         $result = $member->update($memberId, $data);
@@ -287,7 +291,7 @@ class Laposta_Connect_Helper_Laposta extends Mage_Core_Helper_Abstract
 
         $this->log(__METHOD__, $result);
 
-        return trim($result['field']['tag'], '{}');
+        return $result['field']['tag'];
     }
 
     /**

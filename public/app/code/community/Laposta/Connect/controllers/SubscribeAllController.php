@@ -14,11 +14,7 @@ class Laposta_Connect_SubscribeAllController extends Mage_Core_Controller_Front_
      */
     public function indexAction()
     {
-//        Mage::helper('lapostaconnect/subscribe')->refreshSubscriberList(3);
-
         Laposta_Connect_Model_Cron::export();
-
-        die(__CLASS__);
     }
 
 }

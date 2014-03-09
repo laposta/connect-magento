@@ -25,9 +25,9 @@ class Laposta_Connect_Model_Observer
 
         /** @var $collection Laposta_Connect_Model_Mysql4_Subscriber_Collection */
         $collection = Mage::getModel('lapostaconnect/subscriber')->getCollection();
-        $subscriber = $collection->getItemsByColumnValue('customer_id', $customer->getEntityId());
+        $subscriber = $collection->getItemByColumnValue('customer_id', $customer->getId());
 
-        if (!$subscriber instanceof Laposta_Connect_Model_Subscriber || $subscriber->isEmpty()) {
+        if (!$subscriber instanceof Laposta_Connect_Model_Subscriber) {
             /** @var $lists Laposta_Connect_Model_Mysql4_List_Collection */
             $lists = Mage::getModel('lapostaconnect/list')->getCollection();
             /** @var $list Laposta_Connect_Model_List */
@@ -40,6 +40,9 @@ class Laposta_Connect_Model_Observer
             $subscriber = $collection->getNewEmptyItem();
             $subscriber->setListId($list->getListId());
             $subscriber->setCustomerId($customer->getEntityId());
+        }
+
+        if ($subscriber->getData('customer_id') != '') {
             $subscriber->setUpdatedTime($collection->formatDate(time()));
             $subscriber->save();
         }
@@ -166,6 +169,7 @@ class Laposta_Connect_Model_Observer
             if (!isset($fieldsMap[$fieldName])) {
                 $removed[$fieldName] = $field;
                 $fields->removeItemByKey($key);
+                $field->delete();
 
                 continue;
             }

@@ -55,6 +55,20 @@
                             <show_in_store>1</show_in_store>
                             <comment><![CDATA[]]></comment>
                         </list_name>
+                        <subscribe_unconfirmed translate="label">
+                            <label>Allow Unconfirmed</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                <![CDATA[
+                                Allowing unconfirmed subscriptions may lead to a higher spam rating. Caution is advised.
+                                ]]>
+                            </comment>
+                        </subscribe_unconfirmed>
                         <map_fields translate="label comment">
                             <label>Customer Fields Mapping</label>
                             <frontend_model>lapostaconnect/adminhtml_system_config_form_field_mapfields</frontend_model>
@@ -66,7 +80,7 @@
                             <comment>
                                 <![CDATA[
                                 <strong>Available customer fields:</strong> firstname, lastname, dob, billing_address,
-                                shipping_address, gender, store_id, website_id, date_of_purchase, ee_customer_balance,
+                                shipping_address, gender, store_id, website_id, date_of_purchase, group_name
                                 group_id, telephone, company
                                 ]]>
                             </comment>
