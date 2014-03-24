@@ -12,7 +12,6 @@
 
 !public/
 !public/app/
-
 !public/app/code/
 !public/app/code/community/
 !public/app/code/community/Laposta/
@@ -25,23 +24,18 @@
 !public/app/code/community/Laposta/*/*/*/*/*/*/*
 !public/app/code/community/Laposta/*/*/*/*/*/*/*/*
 !public/app/code/community/Laposta/*/*/*/*/*/*/*/*/*
-
-
 !public/app/locale/
 !public/app/locale/en_US/
 !public/app/locale/en_US/Laposta_Connect.csv
-
 !public/app/etc/
 !public/app/etc/modules/
 !public/app/etc/modules/Laposta_Connect.xml
-
 !public/app/design/
 !public/app/design/frontend/
 !public/app/design/frontend/base/
 !public/app/design/frontend/base/default/
 !public/app/design/frontend/base/default/layout/
 !public/app/design/frontend/base/default/layout/lapostaconnect.xml
-
 !public/lib/
 !public/lib/Laposta/
 !public/lib/Laposta/*
