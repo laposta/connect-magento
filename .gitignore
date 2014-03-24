@@ -29,6 +29,7 @@
 
 !public/app/design/frontend/base/default/layout/lapostaconnect.xml
 
-!public/lib/Laposta
+!public/lib/
+!public/lib/Laposta/
 !public/lib/Laposta/*
 !public/lib/Laposta/*/*
