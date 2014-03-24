@@ -115,8 +115,13 @@ class Laposta_Connect_Helper_Sync extends Mage_Core_Helper_Abstract
 
         $lapostaListId = $list->getLapostaId();
         $current       = $laposta->getHooks($lapostaListId, Mage::getBaseUrl());
-        $token         = base_convert(rand(PHP_INT_MAX / 3, PHP_INT_MAX), 10, 36);
-        $hookUrl       = Mage::getBaseUrl() . 'lapostaconnect/webhook?t=' . $token;
+        $token         = $list->getData('webhook_token');
+
+        if (empty($token)) {
+            $token = base_convert(rand(PHP_INT_MAX / 3, PHP_INT_MAX), 10, 36);
+        }
+
+        $hookUrl = Mage::getBaseUrl() . 'lapostaconnect/webhook?t=' . $token;
 
         foreach ($current as $hookData) {
             if (!isset($hookData['webhook']['webhook_id'])) {

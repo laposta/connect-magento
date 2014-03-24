@@ -133,7 +133,7 @@ class Laposta_Connect_Model_Observer
             Mage::helper('lapostaconnect')->log($e);
         }
 
-        $lists->save();
+        $list->save();
 
         if ($subscribeCustomers) {
             Mage::helper('lapostaconnect/subscribe')->refreshSubscriberList($list->getListId());

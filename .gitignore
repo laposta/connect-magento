@@ -27,3 +27,8 @@
 !public/app/locale/en_US/Laposta_Connect.csv
 !public/app/etc/modules/Laposta_Connect.xml
 
+!public/app/design/frontend/base/default/layout/lapostaconnect.xml
+
+!public/lib/Laposta
+!public/lib/Laposta/*
+!public/lib/Laposta/*/*

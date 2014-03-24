@@ -25,9 +25,7 @@ class Laposta_Connect_Helper_Subscribe extends Mage_Core_Helper_Abstract
             $subscriber->setCustomerId($customerId);
             $subscriber->setUpdatedTime($subscriberCollection->formatDate(time()));
 
-            $subscriberCollection->addItem($subscriber);
+            $subscriber->save();
         }
-
-        $subscriberCollection->save();
     }
 }
