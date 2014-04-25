@@ -110,6 +110,14 @@
     </admin>
     <adminhtml>
         <events>
+            <adminhtml_init_system_config>
+                <observers>
+                    <laposta_save_config>
+                        <class>lapostaconnect/observer</class>
+                        <method>handleInitConfig</method>
+                    </laposta_save_config>
+                </observers>
+            </adminhtml_init_system_config>
             <admin_system_config_changed_section_lapostaconnect>
                 <observers>
                     <laposta_save_config>
