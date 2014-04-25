@@ -1,15 +1,5 @@
 <?xml version="1.0"?>
 <config>
-    <menu>
-        <newsletter>
-            <children>
-                <lapostaconnect translate="title" module="connect">
-                    <title>Laposta</title>
-                    <action>lapostaconnect/adminhtml_laposta</action>
-                </lapostaconnect>
-            </children>
-        </newsletter>
-    </menu>
     <acl>
         <resources>
             <all>
@@ -17,13 +7,6 @@
             </all>
             <admin>
                 <children>
-                    <newsletter>
-                        <children>
-                            <lapostaconnect translate="title">
-                                <title>Laposta</title>
-                            </lapostaconnect>
-                        </children>
-                    </newsletter>
                     <system>
                         <children>
                             <config>
