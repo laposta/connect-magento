@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <lapostaconnect translate="label" module="lapostaconnect">
+            <label><![CDATA[Laposta]]></label>
+            <sort_order>350</sort_order>
+        </lapostaconnect>
+    </tabs>
+    <sections>
+        <lapostaconnect translate="label">
+            <class>laposta-section</class>
+            <label>Laposta Configuration</label>
+            <header_css>laposta-header</header_css>
+            <tab>lapostaconnect</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>10</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <laposta translate="label">
+                    <label>Laposta Connection &amp; Synchronisation Settings</label>
+                    <frontend_type>text</frontend_type>
+                    <sort_order>50</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <expanded>1</expanded>
+                    <fields>
+                        <active translate="label">
+                            <label>Enabled</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </active>
+                        <api_key translate="label comment">
+                            <label>Laposta API Key</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                <![CDATA[<a href="https://app.laposta.nl/config/c.connect/s.apikey/" target="_blank">https://app.laposta.nl/config/c.connect/s.apikey/</a>]]></comment>
+                        </api_key>
+                        <list_name translate="label comment">
+                            <label>Laposta List Name</label>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment><![CDATA[]]></comment>
+                        </list_name>
+                        <subscribe_unconfirmed translate="label">
+                            <label>Allow Unconfirmed</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>35</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                <![CDATA[
+                                Allowing unconfirmed subscriptions may lead to a higher spam rating. Caution is advised.
+                                ]]>
+                            </comment>
+                        </subscribe_unconfirmed>
+                        <map_fields translate="label comment">
+                            <label>Customer Fields Mapping</label>
+                            <frontend_model>lapostaconnect/adminhtml_system_config_form_field_mapfields</frontend_model>
+                            <backend_model>adminhtml/system_config_backend_serialized_array</backend_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>
+                                <![CDATA[
+                                <strong>Available customer fields:</strong> firstname, lastname, dob, billing_address,
+                                shipping_address, gender, store_id, website_id, date_of_purchase, group_name
+                                group_id, telephone, company
+                                ]]>
+                            </comment>
+                        </map_fields>
+                        <enable_log translate="label comment">
+                            <label>Enable Logging</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>124</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>File is {{base_dir}}/var/log/Laposta.log</comment>
+                        </enable_log>
+                    </fields>
+                </laposta>
+            </groups>
+        </lapostaconnect>
+    </sections>
+</config>

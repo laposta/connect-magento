@@ -1,0 +1,16 @@
+;Config settings
+"Enabled","Enabled"
+"API Key","API Key"
+"General Subscription","General Subscription"
+"Additional Lists","Additional Lists"
+"Customer Fields Mapping", "Customer Fields Mapping"
+
+;Notification messages
+
+;Additional translations
+"members", "members"
+"Customer", "Customer"
+"Laposta", "Laposta"
+"Add field", "Add field"
+"Username:", "Username:"
+"-- Disabled --", "-- Disabled --"

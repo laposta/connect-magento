@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Laposta_Connect>
+            <active>true</active>
+            <codePool>community</codePool>
+            <depends>
+                <Mage_Newsletter />
+            </depends>
+        </Laposta_Connect>
+    </modules>
+</config>
