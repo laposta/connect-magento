@@ -8,6 +8,8 @@
  */
 class Laposta_Connect_Model_Observer
 {
+    private $currentApiKey = '';
+
     /**
      * Handle subscribe event
      *
@@ -77,6 +79,19 @@ class Laposta_Connect_Model_Observer
     }
 
     /**
+     * Handle config initialization event.
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function handleInitConfig(Varien_Event_Observer $observer)
+    {
+        /*
+         * Record the current api key to detect changes
+         */
+        $this->currentApiKey = Mage::helper('lapostaconnect')->config('api_key');
+    }
+
+    /**
      * Handle subscribe event
      *
      * @param Varien_Event_Observer $observer
@@ -85,6 +100,15 @@ class Laposta_Connect_Model_Observer
      */
     public function handleSaveConfig(Varien_Event_Observer $observer)
     {
+        if (Mage::helper('lapostaconnect')->config('api_key') !== $this->currentApiKey) {
+            Mage::helper('lapostaconnect')->log('Laposta API key changed. Resetting all records.');
+
+             /*
+              * clear the laposta token and sync times
+              */
+            $this->resetSynchronised();
+        }
+
         $list = $this->handleSaveListConfig();
 
         if (!$list instanceof Laposta_Connect_Model_List) {
@@ -227,5 +251,63 @@ class Laposta_Connect_Model_Observer
         }
 
         return $result;
+    }
+
+    /**
+     * Reset tokens and sync times of all lists, fields, and subscribers.
+     */
+    protected function resetSynchronised()
+    {
+        /*
+         * Lists
+         */
+
+        /** @var $lists Laposta_Connect_Model_Mysql4_List_Collection */
+        $lists = Mage::getModel('lapostaconnect/list')->getCollection();
+
+        /** @var $list Laposta_Connect_Model_List */
+        foreach ($lists as $list) {
+            $list->setLapostaId('');
+            $list->setWebhookToken('');
+            $list->setSyncTime(null);
+        }
+
+        $lists->save();
+
+        Mage::helper('lapostaconnect')->log('Lists reset OK.');
+
+        /*
+         * Fields
+         */
+
+        $fields = Mage::getModel('lapostaconnect/field')->getCollection();
+
+        /** @var $field Laposta_Connect_Model_Field */
+        foreach ($fields as $field) {
+            $field->setLapostaId('');
+            $field->setLapostaTag('');
+            $field->setSyncTime(null);
+        }
+
+        $fields->save();
+
+        Mage::helper('lapostaconnect')->log('Fields reset OK.');
+
+        /*
+         * Subscribers
+         */
+
+        /** @var $subscribers Laposta_Connect_Model_Mysql4_Subscriber_Collection */
+        $subscribers = Mage::getModel('lapostaconnect/subscriber')->getCollection();
+
+        /** @var $subscriber Laposta_Connect_Model_Subscriber */
+        foreach ($subscribers as $subscriber) {
+            $subscriber->setLapostaId('');
+            $subscriber->setSyncTime(null);
+        }
+
+        $subscribers->save();
+
+        Mage::helper('lapostaconnect')->log('Subscribers reset OK.');
     }
 }
