@@ -38,7 +38,11 @@ class Laposta_Connect_WebhookController extends Mage_Core_Controller_Front_Actio
         /** @var $lists Laposta_Connect_Model_Mysql4_List_Collection */
         $lists = Mage::getModel('lapostaconnect/list')->getCollection();
         /** @var $list Laposta_Connect_Model_List */
-        $list  = $lists->getItemsByColumnValue('webhook_token', $listToken);
+        $list  = array_shift(
+            $lists->getItemsByColumnValue('webhook_token', $listToken)
+        );
+
+        $this->log("Found list using webhook token '$listToken'", $list);
 
         if (!$list instanceof Laposta_Connect_Model_List) {
             return $this->log("Unable to consume events. '$listToken' is not a valid webhook token.");
@@ -164,10 +168,14 @@ class Laposta_Connect_WebhookController extends Mage_Core_Controller_Front_Actio
         if ($status !== 'active') {
             $newsletterSubscriber->unsubscribe();
 
+            return $this->log("Customer '{$customer->getEmail()}' for subscriber with laposta id '$memberId' has been unsubscribed.");
+
             return $this;
         }
 
-        $newsletterSubscriber->subscribeCustomer($customer);
+        $newsletterSubscriber->subscribe($customer->getEmail());
+
+        return $this->log("Customer '{$customer->getEmail()}' for subscriber with laposta id '$memberId' has been subscribed.");
 
         return $this;
     }
