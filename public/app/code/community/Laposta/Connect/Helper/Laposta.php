@@ -86,9 +86,12 @@ class Laposta_Connect_Helper_Laposta extends Mage_Core_Helper_Abstract
             'state'         => $subscribed ? 'active' : 'unsubscribed',
             'custom_fields' => $this->denormalizeFields($listId, $fields),
         );
+
+        $this->log(__METHOD__ . ' Sending: ', $data);
+
         $result = $member->create($data);
 
-        $this->log(__METHOD__, $result);
+        $this->log(__METHOD__ . ' Received: ', $result);
 
         return $result['member']['member_id'];
     }
