@@ -6,7 +6,7 @@ $installer->startSetup();
 
 $installer->run(
     "
-    CREATE TABLE IF NOT EXISTS {$this->getTable('subscriber')} (
+    CREATE TABLE IF NOT EXISTS `laposta_subscriber` (
       `subscriber_id` int(11) unsigned NOT NULL auto_increment,
       `list_id` int(11) unsigned NOT NULL default 1,
       `customer_id` varchar(255) NOT NULL default '',
@@ -23,7 +23,7 @@ $installer->run(
 
 $installer->run(
     "
-    CREATE TABLE IF NOT EXISTS {$this->getTable('field')} (
+    CREATE TABLE IF NOT EXISTS `laposta_field` (
       `field_id` int(11) unsigned NOT NULL auto_increment,
       `list_id` int(11) unsigned NOT NULL default 1,
       `field_name` varchar(255) NOT NULL default '',
@@ -41,7 +41,7 @@ $installer->run(
 
 $installer->run(
     "
-    CREATE TABLE IF NOT EXISTS {$this->getTable('list')} (
+    CREATE TABLE IF NOT EXISTS `laposta_list` (
       `list_id` int(11) unsigned NOT NULL auto_increment,
       `list_name` varchar(255) NOT NULL default '',
       `laposta_id` varchar(255) NOT NULL default '',
