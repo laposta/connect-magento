@@ -1,7 +1,5 @@
 <?php
 
-die('here');
-
 $installer = $this;
 
 $installer->startSetup();
