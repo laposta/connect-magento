@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Laposta_Connect>
-            <version>1.0.8</version>
+            <version>1.0.9</version>
         </Laposta_Connect>
     </modules>
     <frontend>
