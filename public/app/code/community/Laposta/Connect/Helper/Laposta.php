@@ -1,6 +1,6 @@
 <?php
 
-require_once Mage::getBaseDir('lib') . '/Laposta/Laposta.php';
+require_once dirname(dirname(__FILE__)) . '/lib/Laposta/Laposta.php';
 
 class Laposta_Connect_Helper_Laposta extends Mage_Core_Helper_Abstract
 {
