@@ -266,7 +266,7 @@ class Laposta_Connect_Helper_Sync extends Mage_Core_Helper_Abstract
         $result = array();
 
         foreach ($current as $field) {
-            if (!isset($field['field']['field_id'])) {
+            if (!isset($field['field']['field_id']) || !empty($field['field']['is_email'])) {
                 continue;
             }
 
