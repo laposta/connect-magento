@@ -13,23 +13,23 @@ class Laposta_Connect_Helper_Sync extends Mage_Core_Helper_Abstract
      * )
      */
     protected $fieldConfigMap = array(
-        'dob'                 => array(
+        'dob'              => array(
             'type' => Laposta_Connect_Helper_Laposta::FIELD_TYPE_DATE,
         ),
-        'gender'              => array(
+        'gender'           => array(
             'type'    => Laposta_Connect_Helper_Laposta::FIELD_TYPE_SELECT_SINGLE,
             'options' => array('', 'Male', 'Female'),
         ),
-        'store_id'            => array(
+        'store_id'         => array(
             'type' => Laposta_Connect_Helper_Laposta::FIELD_TYPE_NUMERIC,
         ),
-        'website_id'          => array(
+        'website_id'       => array(
             'type' => Laposta_Connect_Helper_Laposta::FIELD_TYPE_NUMERIC,
         ),
-        'date_of_purchase'    => array(
+        'date_of_purchase' => array(
             'type' => Laposta_Connect_Helper_Laposta::FIELD_TYPE_DATE,
         ),
-        'group_id'            => array(
+        'group_id'         => array(
             'type' => Laposta_Connect_Helper_Laposta::FIELD_TYPE_NUMERIC,
         ),
     );
@@ -63,6 +63,8 @@ class Laposta_Connect_Helper_Sync extends Mage_Core_Helper_Abstract
      */
     public function syncList(Laposta_Connect_Model_List $list)
     {
+        $this->log(__METHOD__, "Starting to sync list: " . $list->getListName());
+
         if (Mage::helper('lapostaconnect')->config('active') !== '1') {
             return $this;
         }
@@ -359,7 +361,14 @@ class Laposta_Connect_Helper_Sync extends Mage_Core_Helper_Abstract
                     $subscriber->setData('laposta_id', $lapostaId);
                 }
                 else {
-                    $laposta->updateContact($lapostaListId, $lapostaMemberId, '', $customer->getEmail(), $data, $subscribed);
+                    $laposta->updateContact(
+                        $lapostaListId,
+                        $lapostaMemberId,
+                        '',
+                        $customer->getEmail(),
+                        $data,
+                        $subscribed
+                    );
                 }
 
                 $subscriber->setSyncTime($subscribers->formatDate(time()));
@@ -372,5 +381,19 @@ class Laposta_Connect_Helper_Sync extends Mage_Core_Helper_Abstract
         }
 
         return $this;
+    }
+
+    protected function log($method, $message, $result = array())
+    {
+        $logData = array(
+            'method'  => $method,
+            'message' => $message,
+        );
+
+        if (!empty($result)) {
+            $logData['result'] = $result;
+        }
+
+        Mage::helper('lapostaconnect')->log($logData);
     }
 }
