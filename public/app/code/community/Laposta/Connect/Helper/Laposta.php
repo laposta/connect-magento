@@ -539,6 +539,12 @@ class Laposta_Connect_Helper_Laposta extends Mage_Core_Helper_Abstract
         return $this;
     }
 
+    /**
+     * Log stuff
+     *
+     * @param string $method
+     * @param array  $result
+     */
     protected function log($method, $result = array())
     {
         Mage::helper('lapostaconnect')->log(
@@ -552,11 +558,18 @@ class Laposta_Connect_Helper_Laposta extends Mage_Core_Helper_Abstract
     /**
      * Remove a contact
      *
-     * @param $listId
-     * @param $memberId
+     * @param string $listId
+     * @param string $memberId
+     *
+     * @return $this
      */
     public function removeContact($listId, $memberId)
     {
+        $member = new Laposta_Member($listId);
+        $result = $member->delete($memberId);
 
+        $this->log(__METHOD__, $result);
+
+        return $this;
     }
 } 

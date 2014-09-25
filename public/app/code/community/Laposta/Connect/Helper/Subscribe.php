@@ -4,27 +4,29 @@ class Laposta_Connect_Helper_Subscribe extends Mage_Core_Helper_Abstract
 {
     public function refreshSubscriberList($listId)
     {
-        /** @var $customerCollection Mage_Customer_Model_Entity_Customer_Collection */
-        $customerCollection = Mage::getModel('customer/customer')->getCollection();
+        /** @var $subscriberCollection Mage_Newsletter_Model_Resource_Subscriber_Collection */
+        $nativeSubscriberCollection = Mage::getModel('newsletter/subscriber')->getCollection();
 
         /** @var $subscriberCollection Laposta_Connect_Model_Mysql4_Subscriber_Collection */
         $subscriberCollection = Mage::getModel('lapostaconnect/subscriber')->getCollection();
 
-        $subscribed = array_flip($subscriberCollection->getColumnValues('customer_id'));
+        $subscriberIdList = array_flip($subscriberCollection->getColumnValues('newsletter_subscriber_id'));
+        $customerIdList   = array_flip($subscriberCollection->getColumnValues('customer_id'));
 
-        /** @var $customer Mage_Customer_Model_Entity_Customer */
-        foreach ($customerCollection as $customer) {
-            $customerId = $customer->getEntityId();
+        /** @var $nativeSubscriber Mage_Newsletter_Model_Subscriber */
+        foreach ($nativeSubscriberCollection as $nativeSubscriber) {
+            $customerId         = $nativeSubscriber->getCustomerId();
+            $nativeSubscriberId = $nativeSubscriber->getId();
 
-            if (isset($subscribed[$customerId])) {
+            if (isset($customerIdList[$customerId]) || isset($subscriberIdList[$nativeSubscriberId])) {
                 continue;
             }
 
             $subscriber = $subscriberCollection->getNewEmptyItem();
             $subscriber->setListId($listId);
             $subscriber->setCustomerId($customerId);
+            $subscriber->setNewsletterSubscriberId($nativeSubscriberId);
             $subscriber->setUpdatedTime($subscriberCollection->formatDate(time()));
-
             $subscriber->save();
         }
     }
