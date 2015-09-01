@@ -83,15 +83,21 @@ class Laposta_Connect_Helper_Sync extends Mage_Core_Helper_Abstract
         if (empty($listName)) {
             $listName = '(Empty List Name - Magento)';
 
+            $this->log('Creating new list', $listName);
+
             $list->setListName($listName);
         }
 
         if (empty($lapostaId)) {
+            $this->log("Creating new list", $listName);
+
             $lapostaId = $laposta->addGroup($listName);
 
             $list->setLapostaId($lapostaId);
         }
         else {
+            $this->log('Updating list', array('listName' => $listName, 'lapostId' => $lapostaId));
+
             $laposta->updateGroup($lapostaId, $listName);
         }
 

@@ -16,7 +16,7 @@ class Laposta_Request
 
         // check for CURL error
         if ($response['error']) {
-            throw new Laposta_Error('Connection error: ' . $response['error_msg'], $response['status'], $response['body']);
+            throw new Laposta_Error('Connection error: ' . $response['error_msg'] . '(' . json_encode($data) . ')', $response['status'], $response['body']);
         }
 
         // decode JSON
