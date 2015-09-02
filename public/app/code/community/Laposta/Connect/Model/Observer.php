@@ -75,7 +75,6 @@ class Laposta_Connect_Model_Observer
 
         /** @var $collection Laposta_Connect_Model_Mysql4_Subscriber_Collection */
         $collection = Mage::getModel('lapostaconnect/subscriber')->getCollection();
-        $customerId = $nativeSubscriber->getCustomerId();
 
         /*
          * find laposta subscriber by subscriber id
@@ -83,27 +82,32 @@ class Laposta_Connect_Model_Observer
 
         /** @var $subscriber Laposta_Connect_Model_Subscriber */
         $subscriber = $collection->getItemByColumnValue('newsletter_subscriber_id', $nativeSubscriber->getId());
+        $customerId = $nativeSubscriber->getCustomerId();
 
-        /*
-         * if not found and customer id is not '0' it could be a legacy record
-         */
-
-        if ($customerId != "0" && (!$subscriber instanceof Laposta_Connect_Model_Subscriber || $subscriber->isEmpty())) {
-            $subscriber = $collection->getItemByColumnValue('customer_id', $customerId);
-
+        if ($subscriber instanceof Laposta_Connect_Model_Subscriber && !$subscriber->isEmpty()) {
             /*
-             * update entries stored without a newsletter_subscriber_id
+             * Subscriber already exists. No need to continue.
              */
+            return;
+        }
+        else if ($customerId != "0") {
+            /*
+             * if not found and customer id is not '0' it could be a legacy record
+             */
+            $subscriber = $collection->getItemByColumnValue('customer_id', $customerId);
+        }
 
+        if ($subscriber instanceof Laposta_Connect_Model_Subscriber && !$subscriber->isEmpty()) {
+            /*
+             * If subscriber is found then update the newsletter subscriber id
+             */
             $subscriber->setNewsletterSubscriberId($nativeSubscriber->getId());
             $subscriber->save();
         }
-
-        /*
-         * if subscriber still doesn't exist then it really doesn't exist yet.
-         */
-
-        if (!$subscriber instanceof Laposta_Connect_Model_Subscriber || $subscriber->isEmpty()) {
+        else {
+            /*
+             * if subscriber still doesn't exist then it really doesn't exist yet.
+             */
             /** @var $lists Laposta_Connect_Model_Mysql4_List_Collection */
             $lists = Mage::getModel('lapostaconnect/list')->getCollection();
             /** @var $list Laposta_Connect_Model_List */
