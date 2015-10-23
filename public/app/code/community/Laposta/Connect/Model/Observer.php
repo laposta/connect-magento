@@ -38,7 +38,7 @@ class Laposta_Connect_Model_Observer
         }
 
         if ($subscriber->getData('customer_id') != '') {
-            $subscriber->setUpdatedTime($collection->formatDate(time()));
+            $subscriber->setUpdatedTime(date('Y-m-d H:i:s'));
             $subscriber->save();
         }
     }
@@ -121,7 +121,7 @@ class Laposta_Connect_Model_Observer
             $subscriber->setListId($list->getListId());
             $subscriber->setCustomerId($customerId);
             $subscriber->setNewsletterSubscriberId($nativeSubscriber->getId());
-            $subscriber->setUpdatedTime($collection->formatDate(time()));
+            $subscriber->setUpdatedTime(date('Y-m-d H:i:s'));
             $subscriber->save();
         }
     }
@@ -170,7 +170,7 @@ class Laposta_Connect_Model_Observer
 
         $subscriber->setCustomerId('');
         $subscriber->setNewsletterSubscriberId('');
-        $subscriber->setUpdatedTime($collection->formatDate(time()));
+        $subscriber->setUpdatedTime(date('Y-m-d H:i:s'));
         $subscriber->save();
     }
 
@@ -237,7 +237,7 @@ class Laposta_Connect_Model_Observer
         }
 
         $list->setListName($listName);
-        $list->setUpdatedTime($lists->formatDate(time()));
+        $list->setUpdatedTime(date('Y-m-d H:i:s'));
 
         /*
          * Save here to ensure list_id is generated for new list entries
@@ -295,7 +295,7 @@ class Laposta_Connect_Model_Observer
             }
 
             $field->setFieldRelation($fieldsMap[$fieldName]);
-            $field->setUpdatedTime($fields->formatDate(time()));
+            $field->setUpdatedTime(date('Y-m-d H:i:s'));
             $updated[$fieldName] = $field;
         }
 
@@ -309,7 +309,7 @@ class Laposta_Connect_Model_Observer
             $field->setListId($list->getListId());
             $field->setFieldName($fieldName);
             $field->setFieldRelation($fieldRelation);
-            $field->setUpdatedTime($fields->formatDate(time()));
+            $field->setUpdatedTime(date('Y-m-d H:i:s'));
 
             $fields->addItem($field);
             $added[$fieldName] = $field;
