@@ -103,7 +103,7 @@ class Laposta_Connect_Helper_Sync extends Mage_Core_Helper_Abstract
 
         $this->resetWebhooks($list);
 
-        $list->setSyncTime(Mage::getModel('lapostaconnect/list')->getCollection()->formatDate(time()));
+        $list->setSyncTime(date('Y-m-d H:i:s'));
 
         return $this;
     }
@@ -222,7 +222,7 @@ class Laposta_Connect_Helper_Sync extends Mage_Core_Helper_Abstract
             }
 
             $field->setLapostaTag(trim($lapostaFieldTag, '{}'));
-            $field->setSyncTime($fields->formatDate(time()));
+            $field->setSyncTime(date('Y-m-d H:i:s'));
         }
 
         $remove = array_diff($current, $synchronised);
@@ -389,7 +389,7 @@ class Laposta_Connect_Helper_Sync extends Mage_Core_Helper_Abstract
                 $laposta->updateContact($lapostaListId, $lapostaMemberId, '', $email, $data, $subscribed);
             }
 
-            $subscriber->setSyncTime($subscribers->formatDate(time()));
+            $subscriber->setSyncTime(date('Y-m-d H:i:s'));
             $subscriber->save();
         }
 
