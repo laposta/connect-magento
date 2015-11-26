@@ -93,7 +93,7 @@ class Laposta_Connect_Helper_Laposta extends Mage_Core_Helper_Abstract
 
         $this->log(__METHOD__ . ' Received: ', $result);
 
-        return $result['member']['member_id'];
+        return (isset($result['member']['member_id'])) ? $result['member']['member_id'] : "";
     }
 
     /**
@@ -572,4 +572,4 @@ class Laposta_Connect_Helper_Laposta extends Mage_Core_Helper_Abstract
 
         return $this;
     }
-} 
+}

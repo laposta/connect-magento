@@ -12,13 +12,15 @@ class Laposta_Connect_Helper_Subscribe extends Mage_Core_Helper_Abstract
 
         $subscriberIdList = array_flip($subscriberCollection->getColumnValues('newsletter_subscriber_id'));
         $customerIdList   = array_flip($subscriberCollection->getColumnValues('customer_id'));
+        $emailList        = array_flip($subscriberCollection->getColumnValues('email'));
 
         /** @var $nativeSubscriber Mage_Newsletter_Model_Subscriber */
         foreach ($nativeSubscriberCollection as $nativeSubscriber) {
-            $customerId         = $nativeSubscriber->getCustomerId();
-            $nativeSubscriberId = $nativeSubscriber->getId();
+            $customerId            = $nativeSubscriber->getCustomerId();
+            $nativeSubscriberId    = $nativeSubscriber->getId();
+            $nativeSubscriberEmail = $nativeSubscriber->getEmail();
 
-            if (isset($customerIdList[$customerId]) || isset($subscriberIdList[$nativeSubscriberId])) {
+            if (isset($customerIdList[$customerId]) || isset($subscriberIdList[$nativeSubscriberId]) || isset($emailList[$nativeSubscriberEmail])) {
                 continue;
             }
 
